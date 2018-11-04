@@ -9,6 +9,9 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
   }
 
   public boolean add(T value) {
+    if (value == null) {
+      throw new IllegalArgumentException("Can't set null");
+    }
     super.add(value);
     for (int x = size()-1; x > 0; x--) {
       if (get(x).compareTo(get(x-1)) < 0) {
@@ -32,7 +35,8 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
     T replaced = get(index);
     remove(index);
     add(value);
+    //stores & returns original value at index, removes that index value,
+    //adds new value and orders it
     return replaced;
   }
-
 }

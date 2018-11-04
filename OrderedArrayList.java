@@ -1,4 +1,5 @@
 public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T> {
+
   public OrderedArrayList() {
     super();
   }
@@ -9,15 +10,57 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
 
   public boolean add(T element) {
     super.add(element);
-    this.sort();
+    for (int x = size()-1; x > 0; x--) {
+      if (get(x).compareTo(get(x-1)) < 0) {
+        T temp = get(x);
+        super.set(x, get(x-1));
+        super.set(x - 1, temp);
+      }
+    }
     return true;
   }
+
+  public void add(int index, T element) {
+    add(element);
+    //ignores index, because this is an ordered array list
+  }
+
+
+  public static void main(String[] args) {
+    OrderedArrayList<Integer> A = new OrderedArrayList<Integer>();
+    A.add(9);
+    A.add(8);
+    A.add(4);
+    A.add(7);
+    A.add(6);
+    A.add(2);
+    System.out.println(A);
+  }
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //can be done by super.add(element), then this.sort()
 //but this is for the sake of finding the correct index
 //to insert the value at
 //compares to next val and sees if greater, if it is, adds right there
-  public void add(int index, T element) {
+/*  public void add(int index, T element) {
     this.sort();
     int actualindex = 0;
     for (int x = 0; x < this.size(); x++) {
@@ -33,13 +76,14 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
     if (element == null) {
       throw new IllegalArgumentException("Can't set null");
     } else {
-      T value = get(index);
+      T value = this.get(index);
       this.remove(get(index));
       this.add(element);
       return value;
     }
   }
 
+//helper method
   public T findLowest() {
     T lowest = this.get(0);
     for (int z = 0; z < this.size(); z++) {
@@ -51,18 +95,19 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
   }
 
 //non-built in sort method:
-  public NoNullArrayList sort() {
+  public void sort() {
     NoNullArrayList<T> temp = new NoNullArrayList<T>();
     int len = this.size();
-      for (int x = 1; x <= len; x++) {
-          T lowest = this.findLowest();
-          temp.add(lowest);
-          this.remove(lowest);
-          len = len-1;
-          x = x -1;
-        }
-    return temp;
+    for (int x = 1; x <= len; x++) {
+        T lowest = this.findLowest();
+        temp.add(lowest);
+        this.remove(lowest);
+        len = len-1;
+        x = x -1;
+      }
+    OrderedArrayList<T> this = new OrderedArrayList<T>(temp);
     }
+
 
   public static void main(String[] args) {
     OrderedArrayList<Integer> A = new OrderedArrayList<Integer>();
@@ -74,20 +119,23 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
     A.add(7);
     A.add(13);
     A.add(23);
+    A.sort();
     System.out.println(A);
-    System.out.println(A.findLowest());
-    System.out.println(A.sort());
 
     OrderedArrayList<String> B = new OrderedArrayList<String>();
-    B.add("fuck");
-    B.add("This");
-    B.add("shit");
+    B.add("");
+    B.add("");
+    B.add("");
     System.out.println(B);
-    System.out.println(B.findLowest());
-    System.out.println(B.sort());
 
 
-    A.set(0,2);
+  //  A.set(0,2);
     System.out.println(A);
   }
+}
+
+
+//find a way to carry to A from temp;
+
+*/
 }

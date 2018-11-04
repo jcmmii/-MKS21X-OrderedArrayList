@@ -9,12 +9,24 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
 
   public boolean add(T element) {
     super.add(element);
+    this.sort();
     return true;
   }
 
+//can be done by super.add(element), then this.sort()
+//but this is for the sake of finding the correct index
+//to insert the value at
+//compares to next val and sees if greater, if it is, adds right there
   public void add(int index, T element) {
-    super.add(element);
     this.sort();
+    int actualindex = 0;
+    for (int x = 0; x < this.size(); x++) {
+      if (this.get(x).compareTo(element) >= 0) {
+        break;
+      }
+      actualindex++;
+    }
+    super.add(actualindex,element);
   }
 
   public T set(int index, T element) {
@@ -38,6 +50,7 @@ public class OrderedArrayList<T extends Comparable<T>> extends NoNullArrayList<T
     return lowest;
   }
 
+//non-built in sort method:
   public NoNullArrayList sort() {
     NoNullArrayList<T> temp = new NoNullArrayList<T>();
     int len = this.size();

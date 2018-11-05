@@ -30,9 +30,9 @@ public class NoNullArrayList<T> extends ArrayList<T>{
   public T set(int index, T element) {
     if (element == null) {
       throw new IllegalArgumentException("Can't set null");
-    } else {
-      super.set(index,element);
     }
-    return element;
+    T oldval = get(index);
+    super.set(index,element);
+    return oldval;
   }
 }
